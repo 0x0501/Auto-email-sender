@@ -113,7 +113,7 @@ interface sendEmailPackage {
 
 function prepareSendEmail(index : any) : sendEmailPackage {
 
-    let random = getRandomSection(0, emails.length-1);
+    let random = getRandomSection(0, CONFIG.subjects.length-1);
 
         let message : object = {
             from : CONFIG.username,
