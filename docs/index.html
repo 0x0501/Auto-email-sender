@@ -1,0 +1,744 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="index.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Email Sender Documentation</title>
+</head>
+
+<body>
+
+
+    <div class="container">
+        <header id="page-header">
+            Auto Email Sender <br />
+            <span class="sub-desc">handle all of email issues</span>
+            <span id="expand" class="expand-btn">
+                <svg t="1664182521536" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                    xmlns="http://www.w3.org/2000/svg" p-id="2618" width="20" height="20">
+                    <path
+                        d="M128 682.666667h768v85.333333H128v-85.333333z m0-213.333334h768v85.333334H128v-85.333334z m0-213.333333h768v85.333333H128V256z"
+                        fill="#000000" p-id="2619"></path>
+                </svg>
+            </span>
+        </header>
+        <!-- navigate bar -->
+        <nav id="navbar">
+            <header class="nav-title">
+                Auto Email Sender Documentation
+            </header>
+            <ul id="menu">
+                <li>
+                    <a class="nav-link" href="#Introduction">Introduction</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="#Usage">Usage</a>
+                    <ul>
+                        <li>
+                            <a class="nav-link" href="#Set-up">Set up</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#Send-emails">Send emails</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#Add-email-signature-with-template">Email signature</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#Add-random-email-subjects">Add Subjects</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#Extract-emails-from-source">Extract emails</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#Using-template-variables">Template variables</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="nav-link" href="#Configuration">Configuration</a>
+                    <ul>
+                        <li>
+                            <a class="nav-link" href="#Username">Username</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#Password">Password</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#MailHost">MailHost</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#MailDataFile">MailDataFile</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#Subjects">Subjects</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#Content">Content</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#DataModelPath">DataModelPath</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#Signature">Signature</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#SignatureFile">SignatureFile</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#Debug">Debug</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#Timing">Timing</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#Logger">Log</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="nav-link" href="#">Version History</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- main content of ducomentation -->
+        <main id="main-doc">
+            <!-- if meaningful id has any spaces, it should be replaced with underscores -->
+            <section class="main-section" id="Introduction">
+                <header>
+                    <h1>Introduction</h1>
+                </header>
+                <article>
+                    <p>
+                        Auto-email-sender是一款<b>高度定制化</b>的自动邮件发送程式，能够摈弃传统群发软件的弊端：无法编辑富文本邮件内容，无法导入变量，无法使用本地邮件追踪等...其对于小白来说有一定的上手难度
+                        不过本文档尽量通俗易懂的解释每个篇幅。项目运行环境要求：<code>Node.js 17+</code>，在此之前请确保你以安装、调试完<code>Node.js</code>。
+                        使用<code>windows + R</code>输入<code>cmd</code>打开控制台，输入<code>node</code>如果能正常显示：
+                        <pre>
+                            Welcome to Node.js v18.7.0.
+                            Type ".help" for more information.
+                            >
+                        </pre>
+                        说明你的<code>Node.js</code>没有问题。
+                    </p>
+                    <p>Auto-email-sender的诞生完全是为了<b>提升工作效率</b>，在网路上
+                        找到用户对应的邮箱形如<b>大海捞针</b>，各种方法层出不穷：验证、穷举、规则盲猜等，
+                        由于通过这些手段收集 (生成)的邮箱有大部分都处于不可用状态，
+                        传统的手工发送在浩瀚的邮箱面前显得捉襟见肘，Auto-email-sender应运而生，
+                        这才是当初研发的初衷。项目采用TypeScript开发, 如果你觉得该项目对你有帮助，可以在GItHub点个Star，地址
+                        <a href="https://github.com/sumku404/Auto-email-sender"
+                            target="_blank">https://github.com/sumku404/Auto-email-sender</a>
+                        目前的功能有：
+                    <ul>
+                        <li>多邮件主支持 (Multi-Subject)</li>
+                        <li>多邮件签名支持</li>
+                        <li>邮件正文随机人名添加</li>
+                        <li>动态模板变量字符串 (braces Variables)</li>
+                        <li>基于STMP协议的邮箱验证</li>
+                        <li>网页邮箱提取并格式化</li>
+                        <li>邮件追踪 (计划中)</li>
+                    </ul>
+                    </p>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+
+            <section class="main-section" id="Usage">
+                <header>
+                    <h2>Usage</h2>
+                </header>
+                <article>
+                    <p>
+                        编译后的JavaScript存放在项目的<code>build</code>文件夹内，命令如下：
+                    </p>
+                    <p>
+                        运行: <code>npm run app</code> 执行命令后会自动编译并运行
+                    </p>
+                    <p>
+                        仅编译：<code>npm run build</code> 不会自动运行程序
+                    </p>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+            <section class="main-section" id="Set-up">
+                <header>
+                    <h3>Set-up the application</h3>
+                </header>
+                <article>
+                    <p>
+                        在开始发送邮件之前我们首先需要对程序进行<b>配置</b>，如邮箱服务器地址，邮箱用户名，邮箱密码，邮件发送间隔等，
+                        当你把项目下载 (zip) 或克隆 (clone) 到本地的时候，其目录结构如下：
+                    <ul>
+                        <li>
+                            <code>Auto-email-sender</code> 项目的主目录文件，里面存放着所有的代码及配置文件
+                        </li>
+                        <li>
+                            <code>build</code> 目录下存放着TypeScript编译后的JavaScript文件，也是程序的运行时文件
+                        </li>
+                        <li>
+                            <code>docs</code> 目录下存放着项目的文档 (当前你看到的内容), 复制<code>index.html</code>
+                            的全路径到任意浏览器后即可查看文档。
+                        </li>
+                        <li>
+                            <code>src</code> 目录下存放着项目的所有源代码 (TypeScript)， 配置文件也在该目录下
+                        </li>
+                        <li>
+                            <code>src/config.ts</code> 项目的配置文件，所有基于配置的操作都在该文件内完成
+                        </li>
+                        <li>
+                            <code>src/defines.ts</code> 常量定义文件，定义整个程序公用的常量数据
+                        </li>
+                        <li>
+                            <code>src/app.ts</code> 项目的入口文件，在执行<code>npm run app</code>时将加载该文件
+                        </li>
+                        <li>
+                            <code>static</code> 所有的<b>静态</b>文件都将存放在该目录下，如<b>邮件模板</b>，<b>签名模板</b>等
+                        </li>
+                        <li>
+                            <code>static/dataModel</code> 目录下存放着决策树算法 (Decision Tree) 生成的数据文件，用来进行邮箱验证功能 (beta)
+                        </li>
+                        <li>
+                            <code>static/signatures</code> 目录下存放着所有的<b>邮件签名模板</b>,
+                            使用<b>html</b>作为存储格式，若在配置文件中开启<b>签名</b>功能后会在每封邮件末尾内自动插入邮件签名，支持多签名文件配置
+                            ，系统每次会随机抽取一个作为<b>邮件签名</b>，以减少被评为垃圾邮件的可能
+                        </li>
+                        <li>
+                            <code>static/templates</code> 目录下存放着所有的<b>邮件模板</b>， 支持多模板配置，每次系统会随机选出一个模板作为邮件内容以减少被评为垃圾邮件的可能
+                        </li>
+                        <li>
+                            <code>static/customerEmails.csv</code> 文件存放着<b>待发送</b>邮件列表，每个邮件之间采用 (,) 逗点进行分割
+                        </li>
+                        <li>
+                            <code>static/record.txt</code>
+                            文件存放用于<b>提取邮件</b>的源文本文件，Extractor可以自动提取中里面的所有的邮件并<b>去重</b>，并使用 (,) 逗点进行分割。
+                        </li>
+                        <li>
+                            <code>extractor.js</code> 文件是邮件提取器 (EmailExtractor) 的入口文件，通过执行它来提取邮箱
+                        </li>
+                    </ul>
+                    工欲善其事，必先利其器，对项目的目录结构有一定的了解后才能更好的使用，下一步我们会进行<b>发送邮件</b>，不必对着这眼花缭乱的结构而发愁，更多时候我们是同<b>配置文件
+                        (config.ts)</b>相处。
+                    </p>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+            <section class="main-section" id="Send-emails">
+                <header>
+                    <h3>Send Emails</h3>
+                </header>
+                <article>
+                    <p>
+                        在发送文件之前我们要先对<b>邮箱服务器</b>进行配置，一般来说需要配置三个参数：<b>邮件服务器地址</b>，<b>邮箱用户名</b>，<b>邮箱密码</b>。
+                        使用Visual Studio Code (以下称为VS Code) 打开 <code>src/config.ts</code>文件进行如下修改：
+                    <ul>
+                        <li>
+                            <code>username</code> 修改为你的邮箱用户名，如<b>info1@ykmetalfence.com</b>，字符串需要使用英文引号 ("") 括起来
+                        </li>
+                        <li>
+                            <code>password</code> 修改为你的邮箱密码
+                        </li>
+                        <li>
+                            <code>mailHost</code> 邮箱服务器SMTP地址，应各邮箱而异，此处演示为<b>mail.wirenetting-china.com</b>
+                        </li>
+                    </ul>
+                    进行完以上修改后，你目前的三个配置项看起来应该是这样：
+                    <pre>
+                            username : 'info1@ykmetalfence.com',
+
+                            password : 'abcd12345',
+
+                            mailHost: "mail.wirenetting-china.com"
+                        </pre>
+                    确认没有问题后，在<code>static/customerEmails.csv</code>文件内添加1-2个待发送的邮箱，使用逗点 (,) 进行分割，你的文件修改后应类似于：
+                    <pre>
+                            test1@example.com,
+                            test2@example.com,
+                            test3@example.com
+                        </pre>
+                    接下来我们要将源代码<b>编译</b>为JavaScript文件后才可执行，此时你有两个选项：<b>先编译后运行</b> 或 <b>编译后自动运行 (推荐)</b>
+                    <ol>
+                        <li>先使用<code>npm run build</code>命令编译源代码，编译后的文件位于<code>build</code>目录下，然后再使用<code>node app</code>命令执行程序
+                        </li>
+                        <li>使用<code>npm run app</code>命令系统会自动编译并运行</li>
+                    </ol>
+                    </p>
+                    <p>
+                        如果不出现意外，你刚刚填写的邮箱都会收到一封内容为 “This is default template. - [Email-Lite]” 或 “This is default
+                        template. - [Email-normal]”的邮件，<b>恭喜你，你已经完成了基础操作！</b>
+                    </p>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+            <section class="main-section" id="Add-email-signature-with-template">
+                <header>
+                    <h3>Add email signature with template</h3>
+                </header>
+                <article>
+                    <p>
+                        传统的邮箱服务器是支持<b>签名 (Signature)</b> 功能的，Auto email
+                        sender同样支持。将你设计过的签名转为<b>html</b>代码后放入<code>static/signatures</code>
+                        目录内，文件名不能包含中文，后缀需要是以<b>.html</b>结尾的html文件。
+                    </p>
+                    <p>
+                        假设我的签名文件位于<code>static/signatures/sig-elias.html</code>文件内，此时我们需要在配置文件 (config.ts)
+                        文件中指定我们的签名文件，支持指定多个签名文件，系统每次发送邮件时会随机抽取一个签名。
+                        打开<code>src/config.ts</code>文件后，找到<b>signature</b>将其改为<code>true</code>，如需关闭请设为<code>flase</code>。注意！如果你将<b>signature</b>设置为<code>true</code>但是没有指定签名文件的话会导致程序运行错误。
+                    </p>
+                    <p>原始的配置文件</p>
+                    <pre>
+                        signature: false,
+                    
+                        signatureFile: "static/signatures/signature.html",
+                    </pre>
+                    <h4>指定签名文件路径</h4>
+                    <p>
+                        在配置文件内找到<b>signatureFile</b>后填写签名文件的绝对路径地址, 一番操作后你的配置文件看起来应该类似于：
+                    </p>
+                    <pre>
+                        signature: true,
+                    
+                        signatureFile: "static/signatures/sig-elias.html",
+                    </pre>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+            <section class="main-section" id="Add-random-email-subjects">
+                <header>
+                    <h3>Add random Email Subjects</h3>
+                </header>
+                <article>
+                    <p>
+                        我们在发送多封邮件的时候使用<b>同样的主题 (subject)</b>会不太方便及语义化，而且容易被对方的邮件服务器评为垃圾邮件。Auto email sender支持填写多个邮件主题
+                        (subject)， 每次发送邮件时系统会随机抽取一个作为主题，这极大的改善了传统群发软件的诟病。配置多主题时，我们需要打开
+                        <code>src/config.ts</code>配置文件，找到<b>Subjects</b>，其是一个字符串数组，每行填写一个邮件主题，并使用逗点 (,) 分割。
+                        系统自带的主题:
+                    <pre>
+                            subjects: [
+                                "Hello, We've some iron fence news sharing with u:)",
+                                "This is YingKang Wire Mesh Product, Co, LTD",
+                            ]
+                        </pre>
+                    此时我想添加一个<b>Hello, Sir!</b>的主题应该怎么做呢？ 很简单，直接看例子
+                    </p>
+                    <p>修改完的配置文件：</p>
+                    <pre>
+                        subjects: [
+                            "Hello, We've some iron fence news sharing with u:)",
+                            "This is YingKang Wire Mesh Product, Co, LTD",
+                            "Hello, Sir!"
+                        ]
+                    </pre>
+                    <p>是不是非常简单，很好，你已经学会了如何使用<b>多主题 (Multi-subject)</b>功能。</p>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+            <section class="main-section" id="Extract-emails-from-source">
+                <header>
+                    <h3>Extract emails from source</h3>
+                </header>
+                <article>
+                    <p>假如我现在有一个文本文件：
+                    <pre>
+                            in@example.com	 Valid	example.com
+                            ==dsjkd*ds
+                            Email	Status	Website
+                            tim@example2.com	 Valid	example2.com
+                            in1fo@example3.com	 Valid	example3.com
+                            kd@test4.com	 Valid	test-4.com
+                            in2fo@test-5.com	 Valid	test-5.com
+                        </pre>
+                    <p>
+                        里面有着许多有用邮件和部分干扰文字，那么我可不可以一次性把这些邮件提取出来呢？<b>答案是肯定的</b> Auto email
+                        sender提供了批量提取邮件功能，把<b>待提取</b>邮件放入到
+                        <code>static/record.txt</code>文件内以后，运行<code>extractor.js</code>即可————在控制台输入<code>node extractor</code>，系统会在<code>static</code>目录下生成一个<b>extract_emails.txt</b>
+                        用来保存提取出来的文件，提取完成后，会以类似于下面的形式输出到<code>static/extract_emails.txt</code>内，每行自动以逗点 (,) 分割：
+                    <pre>
+                        in@example.com, 
+                        tim@example2.com,
+                        in1fo@example3.com,
+                        kd@test4.com,
+                        in2fo@test-5.com
+                        </pre>
+                    </p>
+                    </p>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+            <section class="main-section" id="Using-template-variables">
+                <header>
+                    <h3>Using Template Variables</h3>
+                </header>
+                <article>
+                    <p>
+                        假设我们现在有一个需求：在发送邮件的时候需要在<b>正文</b>中加上对方的<b>名字</b>，可是在许多情况下我们都不可能知道对方的真实姓名或 (职位)，如何解决这个需求呢？
+                        Auto email sender提供了随机昵称 (nickname)
+                        的功能，能够在每封邮件中<b>随机选择</b>一个昵称插入到邮件正文中。虽然插入的昵称不一定就是对方的姓名，但这样做能加大
+                        对方查看你邮件的几率。目前只支持一个<code>name</code>变量，你需要在你的邮件模板内选择一个想要插入昵称的位置，并使用占位符<code>{{name}}</code>，该占位符在实际
+                        发送的时候会被替换为<b>随机昵称</b>。这里是我的邮件模板：
+                    <pre>
+                            Hello, {{name}}
+                                I'm sumku404.
+                        </pre>
+                    注意看<code>{{name}}</code>，他会在实际发送的时候被替换为随机昵称：
+                    <pre>
+                            Hello, James
+                                I'm sumku404.
+                        </pre>
+                    </p>
+                </article>
+            </section>
+
+
+
+            <!-- divider -->
+
+
+            <section class="main-section" id="Configuration">
+                <header>
+                    <h2>Configuration</h2>
+                </header>
+                <article>
+                    <p>Auto-email-sender项目的配置文件位于<code>src/config.ts</code>文件内，
+                        配置文件是一个JavaScript常量对象 (Object)，下面我将会将每个配置项目逐一讲解,
+                        在不完全了解配置文件的情况下尽量进行最小的更改以保持程序能够顺利启动。
+                    </p>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+            <section class="main-section" id="Username">
+                <header>
+                    <h3>Username</h3>
+                </header>
+                <article>
+                    <p>
+                        邮箱用户名，直接填入即可
+                    <ul>
+                        <li>Type: [string]</li>
+                        <li>Generic: info6@example.com</li>
+                    </ul>
+                    </p>
+                    Example:
+                    <pre>
+                            ...
+                            username: "info6@example.com"
+                            ...
+                        </pre>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+            <section class="main-section" id="Password">
+                <header>
+                    <h3>Password</h3>
+                </header>
+                <article>
+                    <p>填入您的邮箱密码, 部分邮箱如 "QQ邮箱"、"网易邮箱"等会采用 "授权码" 的形式,
+                        如没有授权码，就直接填入密码即可，鉴于该项目只在本地运行，
+                        故密码采用<b>明文</b>。
+                    </p>
+                    <ul>
+                        <li>Type: [string]</li>
+                        <li>Generic: thisismypsd</li>
+                    </ul>
+                    Example:
+                    <pre>
+                        ...
+                        password: "thisismypsd"
+                        ...
+                    </pre>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+            <section class="main-section" id="MailHost">
+                <header>
+                    <h3>
+                        MailHost
+                    </h3>
+                </header>
+                <article>
+                    <p>
+                        邮箱服务器地址，一般是SMTP地址
+                    <ul>
+                        <li>Type: [string]</li>
+                        <li>Generic: mail.wirenetting-china.com</li>
+                    </ul>
+                    </p>
+                    Example:
+                    <pre>
+                        ...
+                        mailHost: "mail.wirenetting-china.com"
+                        ...
+                    </pre>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+            <section class="main-section" id="MailDataFile">
+                <header>
+                    <h3>MailDataFile</h3>
+                </header>
+                <article>
+                    <p>
+                        一个<code>csv</code>文件,里面存放待发送的邮列表，必须指定一个路径 (相对路径或绝对路径)，
+                        默认为项目的<code>static/customerEmails.csv</code>
+                        中，使用<b>逗点(,)</b>作为每个邮箱的分隔符，也可以在每行
+                        逗点分隔符号后采用<b>空格</b>换行，便于阅读, 如没有特殊需求，不建议更改。
+                    <ul>
+                        <li>Type: [CSV File]</li>
+                        <li>Generic: </li>
+                    </ul>
+                    </p>
+                    Example:
+                    <pre>
+                        ...
+                        MailDataFile: "static/customerEmails.csv"
+                        ...
+                    </pre>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+
+            <section class="main-section" id="Subjects">
+                <header>
+                    <h3>Subjects</h3>
+                </header>
+                <article>
+                    <p>
+                        一组文字数组，每次发送邮件时会<b>随机抽取</b>一个作为邮件的主题 (Subject)
+                        以防被对方邮件服务器评为垃圾邮件，建议自定义1-3个。
+                    <ul>
+                        <li>Type: string[]</li>
+                        <li>Generic: Inspect below</li>
+                    </ul>
+                    </p>
+                    Example:
+                    <pre>
+                        ...
+                        subjects : [
+                            "Hello, We've some iron fence news sharing with u:)",
+                            "This is YingKang Wire Mesh Product, Co, LTD",
+                            "Iron Fence Factory Price Exporter | YingKang",
+                        ]
+                        ...
+                    </pre>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+            <section class="main-section" id="Content">
+                <header>
+                    <h3>Content</h3>
+                </header>
+                <article>
+                    <p>
+                        邮件主体内容 (Content)，可以直接填写文本内容或指定一个html文件<b>（推荐）</b>, 在单纯指定文本文件时，
+                        不能包含任何HTML代码，即不能有加粗、斜体、颜色、下划线之类的特殊修饰，否则会运行失败，默认指向
+                        <code>static/templates/Email-lite.html</code>文件
+                    <ul>
+                        <li>Type: string</li>
+                        <li>Generic: Inspect below</li>
+                    </ul>
+                    </p>
+                    Example:
+                    <pre>
+                        ...
+                        content : "static/templates/Email-lite.html"
+                        ...
+                    </pre>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+            <section class="main-section" id="DataModelPath">
+                <header>
+                    <h3>DataModelPath</h3>
+                </header>
+                <article>
+                    <p>
+                        邮箱验证功能（开发版）内的决策树算法生成的训练模型，一般情况不需要更改，其是一个JSON文件，
+                        只支持填写文件路径。
+                    <ul>
+                        <li>Type: [string]</li>
+                        <li>Generic: Inspect below</li>
+                    </ul>
+                    </p>
+                    Example:
+                    <pre>
+                        ...
+                        dataModelPath : "static/dataModel/model.json"
+                        ...
+                    </pre>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+            <section class="main-section" id="Signature">
+                <header>
+                    <h3>Signature</h3>
+                </header>
+                <article>
+                    <p>
+                        是否开启邮件签名功能，<b>默认关闭</b>。其是一个布尔值 (boolean) 只能填写<code>true</code>或<code>false</code>
+                        ，如果填写<code>true</code>(开启)，则<b>必须填写</b>邮件签名路径 (SignatureFile)，否则会运行失败。
+                        其原理是在读取邮件内容后采用<b>追加</b>的方式添加签名，原文件内容如果已经包含签名文件，开启此项后会<b>再次</b>
+                        添加签名。
+                    <ul>
+                        <li>Type: [boolean]</li>
+                        <li>Generic: signature : false (关闭邮件签名功能)</li>
+                    </ul>
+                    </p>
+                    Example:
+                    <pre>
+                        ...
+                        signature : false
+                        ...
+                    </pre>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+
+            <section class="main-section" id="SignatureFile">
+                <header>
+                    <h3>SignatureFile</h3>
+                </header>
+                <article>
+                    <p>
+                        邮件签名文件路径，如开启了签名功能，则<b>必须</b>填写该项，一般情况下邮件签名是一个HTML文件，默认指向项目的
+                        <code>static/signatures/signature.html</code>，需要签名时把签名文件（Html）的内容<b>拷贝</b>到该路径即可
+                    <ul>
+                        <li>Type: [string]</li>
+                        <li>Generic: signatureFile : 'static/signatures/signature.html'</li>
+                    </ul>
+                    </p>
+                    Example:
+                    <pre>
+                        ...
+                        signatureFile : "static/signatures/signature.html"
+                        ...
+                    </pre>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+
+            <section class="main-section" id="Debug">
+                <header>
+                    <h3>Debug</h3>
+                </header>
+                <article>
+                    <p>
+                        是否开启调试模式，默认为关闭 (false)，开启后在发送邮件或进行邮箱验证时会有更加详细的<b>输出</b>，其是一个布尔值 (boolean)
+                        支支持<code>true</code>或<code>false</code>.
+                    <ul>
+                        <li>Type: [boolean]</li>
+                        <li>Generic: debug: false</li>
+                    </ul>
+                    </p>
+                    Example:
+                    <pre>
+                        ...
+                        debug : false
+                        ...
+                    </pre>
+                </article>
+            </section>
+
+            <!-- divider -->
+
+
+
+            <section class="main-section" id="Timing">
+                <header>
+                    <h3>Timing</h3>
+                </header>
+                <article>
+                    <p>
+                        每封邮件的发送间隔，单位为<b>毫秒</b>(millisecond) 注意单位换算，1000毫秒 = 1秒。
+                        默间隔<b>10000毫秒 (10秒)</b>秒发送一封，不建议把间隔设置的太短，否则容易被
+                        邮件客户端禁止访问 (iP 保护)
+                    <ul>
+                        <li>Type: [number]</li>
+                        <li>Generic: timing: 10000</li>
+                    </ul>
+                    </p>
+                    Example:
+                    <pre>
+                        ...
+                        timing: 10000
+                        ...
+                    </pre>
+                </article>
+            </section>
+
+            <section class="main-section" id="Logger">
+                <header>
+                    <h3>Log</h3>
+                </header>
+                <article>
+                    <p>是否开始日志记录，开启以后发送邮件时，会自动记录发送日志并保存在<code>static/log/running.log</code>文件内，默认不开启。</p>
+                    <ul>
+                        <li>Type: [boolean]</li>
+                        <li>Generic: false</li>
+                    </ul>
+                </article>
+            </section>
+        </main>
+
+        <a id="float-btn" onclick="document.body.scrollTop = 0">
+            ▲
+        </a>
+
+        <footer id="page-footer">
+            <span>@ sumkux. Sharing with u:) 2022</span>
+        </footer>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>

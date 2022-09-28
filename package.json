@@ -3,8 +3,10 @@
     "es-checker": "^1.4.2",
     "nodemailer": "^6.7.8",
     "rimraf": "^3.0.2",
+    "telnet-stream": "^1.1.0",
     "xlsx": "^0.18.5"
   },
+  "extensionDependencies": [],
   "type": "module",
   "devDependencies": {
     "@types/node": "^18.7.5",
@@ -17,9 +19,10 @@
     "typescript": "^4.7.4"
   },
   "scripts": {
-    "build": "rimraf build/** && tsc",
+    "build": "rimraf build && tsc -p tsconfig.json",
     "start": "tsc --watch",
-    "app"  : "npm run build && node app"
+    "app": "npm run build && node --es-module-specifier-resolution=node app",
+    "test": "node --es-module-specifier-resolution=node test"
   },
   "bin": {
     "email-sender": "/bin/email-sender.js"

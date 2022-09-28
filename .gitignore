@@ -3,3 +3,10 @@ node_modules
 
 # Ignore build cache directory
 build
+
+log/**
+
+extract_emails.txt
+
+!.gitignore
+

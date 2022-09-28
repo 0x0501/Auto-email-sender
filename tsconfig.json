@@ -2,14 +2,21 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
-    "target": "es6",
+    "target": "ES6",
     "allowJs": true,
     "rootDir":"./src",
     "outDir":"./build",
-    "moduleResolution": "Node",
-    "sourceMap": true
+    "moduleResolution": "NodeNext",
+    "sourceMap": true,
+    "removeComments": false,
+    "strictNullChecks": true,
+    "importHelpers": true,
+    "pretty": true,
+    "skipLibCheck": true,
+    "moduleDetection": "auto",
   },
   "include":[
-    "./src/**/*"
+    "./src/**/*",
+    "package.json"
   ]
 }
