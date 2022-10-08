@@ -1,8 +1,6 @@
 # Auto email sender
 
-
 Auto email sender is a cross-plaftform tool to help you drop into the EDM easily over NodeJS. It supports various functions now:
-
 
 - Multi-subject
 - Multi-signature
@@ -11,9 +9,9 @@ Auto email sender is a cross-plaftform tool to help you drop into the EDM easily
 - Email validator (Based on SMTP protocol)
 - Email extractor
 
-
 ![](https://img.shields.io/badge/license-MIT-brightgreen)
 ![](https://img.shields.io/badge/language-TypeScript-blue)
+
 ## Requirements  
 
 - `Node.js 17+`
@@ -46,6 +44,14 @@ We'll fill in some params: `username`, `password`, and `mailHost`.
 - mailHost: your email system SMTP server.
 
 We didn't have target emails yet, so let's add some of. Opening `static/customerEmails.csv` , add some emails to which you want to send. Now, running **Auto Email Sender** in your console, you could use ``` Ctrl + ` ``` to open the terminal in VS code.
+
+Go ahead, since `Auto-email-sender` relies on [Nodemailer](https://nodemailer.com/about/), we'll install it previously, before we start our application.
+
+```bash
+npm install
+```
+
+Then, runnig it:
 
 ```bash
 npm run app
