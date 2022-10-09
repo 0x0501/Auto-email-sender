@@ -12,7 +12,6 @@ export const NAME_LIST = [
     "Ambrose",
     "Amos",
     "Adrian",
-    "Al",
     "Albert",
     "Alexander",
     "Alfred",

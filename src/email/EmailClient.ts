@@ -8,12 +8,16 @@ import nodemailer, { Transporter } from "nodemailer";
 import path from "path";
 import CONFIG from "../config.js";
 import { NAME_LIST } from "../defines.js";
-import { backSpaceFilter, consoleColored, getRandomSection } from "../helper.js";
+import {
+    backSpaceFilter,
+    consoleColored,
+    getRandomSection,
+} from "../helper.js";
 import Logger from "../Logger.js";
 import SendEmailOptions from "./interface/SendEmailOptions.js";
 
 /// <reference path="EmailClient.ts" />
-NAME_LIST
+NAME_LIST;
 class EmailClient {
     private _EmailAccount: string;
 
@@ -92,9 +96,7 @@ class EmailClient {
         if (fs.existsSync(content)) {
             let tmp = fs.readFileSync(path.normalize(content), "utf-8");
             emailContent = this.parserTemplateVariables(
-                {
-                    name: NAME_LIST[getRandomSection(0, NAME_LIST.length - 1)],
-                },
+                CONFIG.magicVariables,
                 tmp
             );
         } else {
@@ -127,7 +129,7 @@ class EmailClient {
             subject: CONFIG.subjects[randomKey],
             html: this._getEmailContent(),
             dsn: {
-                id : this._EmailAccount,
+                id: this._EmailAccount,
                 return: "headers",
                 notify: ["success", "failure", "delay"],
                 recipient: this._EmailAccount,
@@ -192,7 +194,7 @@ class EmailClient {
         let tmp = template;
 
         for (let x of Reflect.ownKeys(VMap)) {
-            tmp = tmp.replace(`{{${String(x)}}}`, Reflect.get(VMap, x));
+            tmp = tmp.replaceAll(`{{${String(x)}}}`, Reflect.get(VMap, x));
         }
         return tmp;
     }
@@ -213,7 +215,6 @@ class EmailClient {
      * @description
      */
     public async sendEmails(): Promise<any> {
-
         const logger = CONFIG.log ? Logger.initialize() : null;
 
         for (let i = 0; i < this.emails.length; i++) {
@@ -224,7 +225,9 @@ class EmailClient {
 
             // record logger
             if (logger) {
-                logger.write(`Sender: ${this._EmailAccount}, To: ${this.emails[i]}`);
+                logger.write(
+                    `Sender: ${this._EmailAccount}, To: ${this.emails[i]}`
+                );
             }
             console.log(result);
         }

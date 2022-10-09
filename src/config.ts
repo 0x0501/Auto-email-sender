@@ -4,14 +4,17 @@
  * @Description:
  */
 
+import { NAME_LIST } from "./defines.js";
+import { getRandomSection } from "./helper.js";
+
 //===========================CONFIG=============================
 
 const CONFIG = {
     /** @type {string} email username */
-    username : '',
+    username : 'info8@wirenetting-china.com',
 
     /** @type {string} email password */
-    password : '',
+    password : 'P-a@23-0Nj91',
 
     /** @type {string} email server */
     mailHost: "mail.wirenetting-china.com",
@@ -40,6 +43,42 @@ const CONFIG = {
         "static/templates/Email-lite.html",
         "static/templates/Email-normal.html",
     ],
+
+    /** @type {object} A pair of key-value objects applying to template variables */
+    magicVariables : {
+
+        /**
+            It'll replace the placeholder called `{{name}}` with random nickname.
+        */
+        name: NAME_LIST[getRandomSection(0, NAME_LIST.length - 1)],
+
+
+        /**
+            It'll replace the {{company}} variable with `Auto Email Sender`. You should change it if you wanna use it.
+            For example, if your company name is `Alibaba Group Ltd.`, what you should do is fill in your company name
+            in the corresponding variable value:
+
+            ```
+                company : 'Alibaba Group Ltd.'
+            ```
+
+            In your email, choose a drop zone for your company name:
+
+            ```
+            Hi, {{name}}
+                I'm Elias from {{company}} ...
+
+            ```
+
+            the final email will be:
+
+            ```
+            Hi, James
+                I'm Elias from Alibaba Group Ltd.
+            ```
+        */
+        company : 'Auto Email Sender'
+    },
 
     dataModelPath: "static/dataModel/model.json",
 

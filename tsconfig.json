@@ -14,6 +14,9 @@
     "pretty": true,
     "skipLibCheck": true,
     "moduleDetection": "auto",
+    "lib": [
+      "ESNext"
+    ]
   },
   "include":[
     "./src/**/*",
