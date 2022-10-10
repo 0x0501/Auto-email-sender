@@ -11,10 +11,10 @@ import { getRandomSection } from "./helper.js";
 
 const CONFIG = {
     /** @type {string} email username */
-    username : 'info8@wirenetting-china.com',
+    username : '',
 
     /** @type {string} email password */
-    password : 'P-a@23-0Nj91',
+    password : '',
 
     /** @type {string} email server */
     mailHost: "mail.wirenetting-china.com",
